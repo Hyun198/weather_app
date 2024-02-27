@@ -1,38 +1,238 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Anta", sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/*#d9edf1*/
+body {
+  background: #222;
+  color: white;
+  height: 100vh;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
+  position: relative;
+}
+
+.spinner-container1 {
+  display: none;
+}
+
+.spinner-container {
+  position: absolute;
+  width: 750px;
+  height: 450px;
+  border-radius: 22px;
+  box-shadow: 0 0 15px 17px #b8cee0;
+  background-color: #d9edf1;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-direction: column;
+  z-index: 1;
+  transition: all 0.6s ease;
 }
 
-.App-link {
-  color: #61dafb;
+.spinner-container .circle {
+  width: 45px;
+  height: 45px;
+  margin: 5px;
+  border-radius: 50%;
+  border: 5px solid #092138;
+  border-top: 5px solid transparent;
+  animation: spinner 2s linear infinite;
 }
 
-@keyframes App-logo-spin {
-  from {
+@keyframes spinner {
+  0% {
     transform: rotate(0deg);
+
   }
-  to {
+
+  100% {
     transform: rotate(360deg);
   }
+}
+
+.container {
+  width: 750px;
+  height: 450px;
+  border-radius: 22px;
+  box-shadow: 0 0 15px 17px #b8cee0;
+  background-color: #d9edf1;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+
+.container .input {
+  width: 90%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container .city-name {
+  color: black;
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+
+.container .input input {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border: none;
+  outline: none;
+  border-radius: 22px;
+}
+
+
+.container .main {
+  width: 95%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container .main .left {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container .main .left img {
+  width: 94px;
+  height: 94px;
+  margin: 15px;
+
+}
+
+.container .main .left .box h2 {
+  margin-bottom: 10px;
+  line-height: 1.75rem;
+  text-transform: capitalize;
+  color: #092138;
+}
+
+.container .main .left .box h4 {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: #636c71;
+}
+
+.container .main .center {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container .main .center h2 {
+  color: #263d51;
+
+}
+
+.container .main .center h2 span {
+  font-size: 4rem;
+  font-family: 'Noto Sans', sans-serif;
+  font-weight: 300;
+  color: #092138;
+}
+
+.container .main .right {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #596266;
+  font-size: 0.85rem;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.container .main .right .one {
+  width: 50%;
+  height: 100%;
+  padding: 15px;
+  font-family: 'Noto Sans', sans-serif;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.container .main .right span {
+  width: 2px;
+  height: 50%;
+  background-color: #092138;
+  border: 1px solid white;
+}
+
+.container .main .right .two {
+  width: 60%;
+  height: 100%;
+  padding: 15px;
+  font-family: 'Noto Sans', sans-serif;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.container .forecast {
+  width: 90%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: scroll;
+}
+
+.container .forecast::-webkit-scrollbar,
+::-webkit-scrollbar-corner {
+  appearance: none;
+}
+
+.container .forecast .card {
+  width: 25%;
+  height: 120px;
+  margin: 0 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.container .forecast .card h4 {
+  font-weight: 500;
+  color: #092138;
+}
+
+.container .forecast .card span {
+  font-weight: 300;
+  font-size: 0.65rem;
+  color: #748896;
+}
+
+.container .forecast .card img {
+  width: 58px;
+  height: 60px;
+}
+
+.container .forecast .card p {
+  font-weight: 200;
+  color: #748896;
 }
