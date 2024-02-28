@@ -14,14 +14,18 @@ function App() {
   const [weatherIcon, setWeatherIcon] = useState(clear_icon);
   const [time, setTime] = useState("");
 
+  const [forecastData, setForecastData] = useState({});
+  const [forecastIcon, setForecastIcon] = useState();
+  const [foreTime, setForeTime] = useState("");
+  const [feelsLikeValues, setFeelsLikeValues] = useState([]);
+
+
   const request_weather = async () => {
     try {
       let current_url = `https://api.openweathermap.org/data/2.5/weather?q=gimpo-si&units=Metric&appid=2d9656e12a5cfa0fd6b7cbebd84d6e23&lang=kr`;
-      let forecast_url = `https://api.openweathermap.org/data/2.5/forecast?q=gimpo-si&units=Metric&appid=2d9656e12a5cfa0fd6b7cbebd84d6e23&lang=kr`;
 
       let response = await fetch(current_url);
       let weatherData = await response.json();
-      console.log(weatherData);
 
       const clouds = weatherData.clouds.all
       const humidity = weatherData.main.humidity
@@ -83,6 +87,25 @@ function App() {
   }, [])
 
 
+  const forecast_weather = async () => {
+    let forecast_url = `https://api.openweathermap.org/data/2.5/forecast?q=gimpo-si&units=Metric&appid=2d9656e12a5cfa0fd6b7cbebd84d6e23&lang=kr`
+    let response = await fetch(forecast_url);
+    let forecastData = await response.json();
+    console.log(forecastData);
+
+    const feelsLikes = forecastData.list.map(item => item.main.feels_like);
+    let feelsLikeValues = feelsLikes.slice(0, 6);
+    setFeelsLikeValues(feelsLikeValues);
+
+    const times = forecastData.list.map(item => item.dt_txt);
+    let timesValues = times.map(item => (item.split(" ")[1].split(":").slice(0, 2).join(":"))); //시간
+    timesValues = timesValues.slice(0, 6);
+    setForeTime(timesValues);
+  }
+
+  useEffect(() => {
+    forecast_weather();
+  }, [])
 
   return (
     <>
@@ -118,52 +141,45 @@ function App() {
             <span></span>
             <div className='two'>
               <h2>체감온도</h2>
-              <h2> {weatherData.feels_like}℃</h2>
+              <h2> {weatherData.feels_like} ℃</h2>
             </div>
           </div>
         </div>
         <div className='forecast'>
           <div className='card'>
-            <h4>Mon</h4>
-            <span>08:00 AM</span>
+            <h4>{foreTime[0]}</h4>
             <img src={clear_icon} alt="" />
-            <p>35</p>
+            <p>{Math.round(feelsLikeValues[0])} ℃</p>
           </div>
+
           <div className='card'>
-            <h4>Tue</h4>
-            <span>08:00 AM</span>
+            <h4>{foreTime[1]}</h4>
             <img src={clear_icon} alt="" />
-            <p>35</p>
+            <p>{Math.round(feelsLikeValues[1])} ℃</p>
           </div>
+
           <div className='card'>
-            <h4>Wed</h4>
-            <span>08:00 AM</span>
+            <h4>{foreTime[2]}</h4>
             <img src={clear_icon} alt="" />
-            <p>35</p>
+            <p>{Math.round(feelsLikeValues[2])} ℃</p>
           </div>
+
           <div className='card'>
-            <h4>Thu</h4>
-            <span>08:00 AM</span>
+            <h4>{foreTime[3]}</h4>
             <img src={clear_icon} alt="" />
-            <p>35</p>
+            <p>{Math.round(feelsLikeValues[3])} ℃</p>
           </div>
+
           <div className='card'>
-            <h4>Fri</h4>
-            <span>08:00 AM</span>
+            <h4>{foreTime[4]}</h4>
             <img src={clear_icon} alt="" />
-            <p>35</p>
+            <p>{Math.round(feelsLikeValues[4])} ℃</p>
           </div>
+
           <div className='card'>
-            <h4>Set</h4>
-            <span>08:00 AM</span>
+            <h4>{foreTime[5]}</h4>
             <img src={clear_icon} alt="" />
-            <p>35</p>
-          </div>
-          <div className='card'>
-            <h4>Sun</h4>
-            <span>08:00 AM</span>
-            <img src={clear_icon} alt="" />
-            <p>35</p>
+            <p>{Math.round(feelsLikeValues[5])} ℃</p>
           </div>
         </div>
       </div>
