@@ -14,8 +14,7 @@ function App() {
   const [weatherIcon, setWeatherIcon] = useState(clear_icon);
   const [time, setTime] = useState("");
 
-  const [forecastData, setForecastData] = useState({});
-  const [forecastIcon, setForecastIcon] = useState();
+  const [forecastIcon, setForecastIcon] = useState([]);
   const [foreTime, setForeTime] = useState("");
   const [feelsLikeValues, setFeelsLikeValues] = useState([]);
 
@@ -33,7 +32,7 @@ function App() {
       const rain = weatherData.rain
       const temp = Math.round(weatherData.main.temp)
 
-      const feels_like = weatherData.main.feels_like
+      const feels_like = Math.round(weatherData.main.feels_like)
       const min_temp = weatherData.main.temp_min
       const max_temp = weatherData.main.temp_max
       const desc = weatherData.weather[0].description
@@ -90,17 +89,63 @@ function App() {
   const forecast_weather = async () => {
     let forecast_url = `https://api.openweathermap.org/data/2.5/forecast?q=gimpo-si&units=Metric&appid=2d9656e12a5cfa0fd6b7cbebd84d6e23&lang=kr`
     let response = await fetch(forecast_url);
-    let forecastData = await response.json();
-    console.log(forecastData);
+    let forecastDate = await response.json();
+    console.log(forecastDate);
 
-    const feelsLikes = forecastData.list.map(item => item.main.feels_like);
-    let feelsLikeValues = feelsLikes.slice(0, 6);
-    setFeelsLikeValues(feelsLikeValues);
+    const times = forecastDate.list.map(item => item.dt_txt);
+    const sixAmDate = times.filter(item => item.endsWith("06:00:00"));
 
-    const times = forecastData.list.map(item => item.dt_txt);
-    let timesValues = times.map(item => (item.split(" ")[1].split(":").slice(0, 2).join(":"))); //시간
-    timesValues = timesValues.slice(0, 6);
-    setForeTime(timesValues);
+    let result_feelsLike = forecastDate.list.filter(item => sixAmDate.includes(item.dt_txt)).map(item => item.main.feels_like);
+
+    setFeelsLikeValues(result_feelsLike);
+
+    let sixAmDateValues = sixAmDate.map(item => (item.split(" ")[0].split("-")));
+    const formattedDates = [];
+    sixAmDateValues.forEach(dateArray => {
+      const month = dateArray[1];
+      const day = dateArray[2];
+      const formattedDate = `${month}/${day}`;
+      formattedDates.push(formattedDate);
+    });
+
+    setForeTime(formattedDates);
+
+
+    let result_weatherIcon = forecastDate.list.filter(item => sixAmDate.includes(item.dt_txt)).map(item => item.weather[0].icon);
+    console.log(result_weatherIcon);
+    let icons = [];
+    result_weatherIcon.forEach(i => {
+      switch (i) {
+        case "01d":
+        case "01n":
+          icons.push(clear_icon);
+          break;
+        case "02d":
+        case "02n":
+        case "03d":
+        case "03n":
+        case "04d":
+        case "04n":
+          icons.push(cloud_icon);
+          break;
+        case "09d":
+        case "09n":
+          icons.push(drizzle_icon);
+          break;
+        case "10d":
+        case "10n":
+          icons.push(rain_icon);
+          break;
+        case "13d":
+        case "13n":
+          icons.push(snow_icon);
+          break;
+        default:
+          icons.push(clear_icon);
+      }
+    });
+
+    setForecastIcon(icons);
   }
 
   useEffect(() => {
@@ -148,39 +193,35 @@ function App() {
         <div className='forecast'>
           <div className='card'>
             <h4>{foreTime[0]}</h4>
-            <img src={clear_icon} alt="" />
+            <img src={forecastIcon[0]} alt="" />
             <p>{Math.round(feelsLikeValues[0])} ℃</p>
           </div>
 
           <div className='card'>
             <h4>{foreTime[1]}</h4>
-            <img src={clear_icon} alt="" />
+            <img src={forecastIcon[1]} alt="" />
             <p>{Math.round(feelsLikeValues[1])} ℃</p>
           </div>
 
           <div className='card'>
             <h4>{foreTime[2]}</h4>
-            <img src={clear_icon} alt="" />
+            <img src={forecastIcon[2]} alt="" />
             <p>{Math.round(feelsLikeValues[2])} ℃</p>
           </div>
 
           <div className='card'>
             <h4>{foreTime[3]}</h4>
-            <img src={clear_icon} alt="" />
+            <img src={forecastIcon[3]} alt="" />
             <p>{Math.round(feelsLikeValues[3])} ℃</p>
           </div>
 
           <div className='card'>
             <h4>{foreTime[4]}</h4>
-            <img src={clear_icon} alt="" />
+            <img src={forecastIcon[4]} alt="" />
             <p>{Math.round(feelsLikeValues[4])} ℃</p>
           </div>
 
-          <div className='card'>
-            <h4>{foreTime[5]}</h4>
-            <img src={clear_icon} alt="" />
-            <p>{Math.round(feelsLikeValues[5])} ℃</p>
-          </div>
+
         </div>
       </div>
     </>
