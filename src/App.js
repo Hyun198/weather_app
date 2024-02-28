@@ -27,7 +27,8 @@ function App() {
       const humidity = weatherData.main.humidity
       const wind = weatherData.wind.speed
       const rain = weatherData.rain
-      const temp = weatherData.main.temp
+      const temp = Math.round(weatherData.main.temp)
+
       const feels_like = weatherData.main.feels_like
       const min_temp = weatherData.main.temp_min
       const max_temp = weatherData.main.temp_max
@@ -48,16 +49,16 @@ function App() {
           break;
         case "02d":
         case "02n":
-          setWeatherIcon(cloud_icon);
-          break;
         case "03d":
         case "03n":
         case "04d":
         case "04n":
-          setWeatherIcon(drizzle_icon);
+          setWeatherIcon(cloud_icon);
           break;
         case "09d":
         case "09n":
+          setWeatherIcon(drizzle_icon);
+          break;
         case "10d":
         case "10n":
           setWeatherIcon(rain_icon);
@@ -98,7 +99,7 @@ function App() {
         </div> */}
         <div className='main'>
           <div className='left'>
-            <img src={clear_icon} alt="" />
+            <img src={weatherIcon} alt="" />
             <div className='box'>
               <h2>{weatherData.main}</h2>
               <h4>{time}</h4>
@@ -116,8 +117,8 @@ function App() {
             </div>
             <span></span>
             <div className='two'>
-              <h2>{weatherData.desc}</h2>
-              <p>체감온도: {weatherData.feels_like}℃</p>
+              <h2>체감온도</h2>
+              <h2> {weatherData.feels_like}℃</h2>
             </div>
           </div>
         </div>

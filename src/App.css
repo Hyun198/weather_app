@@ -113,8 +113,8 @@ body {
 }
 
 .container .main .left img {
-  width: 94px;
-  height: 94px;
+  width: 64px;
+  height: 64px;
   margin: 15px;
 
 }
@@ -191,6 +191,7 @@ body {
   justify-content: center;
   flex-direction: column;
 }
+
 
 .container .forecast {
   width: 90%;
